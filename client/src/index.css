@@ -1,0 +1,632 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ── Design Tokens ────────────────────────────────────────────────────────── */
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius: 0.25rem;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+/* ── Retro-Futuristic Dark Theme ──────────────────────────────────────────── */
+:root {
+  --radius: 0.25rem;
+  --background: oklch(0.06 0.01 240);
+  --foreground: oklch(0.93 0.01 240);
+  --card: oklch(0.09 0.015 240);
+  --card-foreground: oklch(0.93 0.01 240);
+  --popover: oklch(0.09 0.015 240);
+  --popover-foreground: oklch(0.93 0.01 240);
+  --primary: oklch(0.72 0.28 195);
+  --primary-foreground: oklch(0.06 0.01 240);
+  --secondary: oklch(0.13 0.02 240);
+  --secondary-foreground: oklch(0.80 0.01 240);
+  --muted: oklch(0.11 0.015 240);
+  --muted-foreground: oklch(0.50 0.02 240);
+  --accent: oklch(0.65 0.30 320);
+  --accent-foreground: oklch(0.06 0.01 240);
+  --destructive: oklch(0.58 0.28 25);
+  --destructive-foreground: oklch(0.95 0.01 240);
+  --border: oklch(0.20 0.03 240);
+  --input: oklch(0.12 0.015 240);
+  --ring: oklch(0.72 0.28 195);
+  --chart-1: oklch(0.72 0.28 195);
+  --chart-2: oklch(0.65 0.30 320);
+  --chart-3: oklch(0.70 0.25 130);
+  --chart-4: oklch(0.75 0.22 60);
+  --chart-5: oklch(0.60 0.28 25);
+  --sidebar: oklch(0.08 0.012 240);
+  --sidebar-foreground: oklch(0.93 0.01 240);
+  --sidebar-primary: oklch(0.72 0.28 195);
+  --sidebar-primary-foreground: oklch(0.06 0.01 240);
+  --sidebar-accent: oklch(0.13 0.02 240);
+  --sidebar-accent-foreground: oklch(0.80 0.01 240);
+  --sidebar-border: oklch(0.20 0.03 240);
+  --sidebar-ring: oklch(0.72 0.28 195);
+}
+
+/* ── Base Layer ───────────────────────────────────────────────────────────── */
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+    box-sizing: border-box;
+  }
+
+  html, body {
+    @apply bg-background text-foreground;
+    font-family: "Rajdhani", "Share Tech Mono", system-ui, sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* Scanline overlay */
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.12) 2px,
+      rgba(0,0,0,0.12) 4px
+    );
+  }
+
+  /* CRT vignette */
+  body::after {
+    content: "";
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 9998;
+    background: radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.55) 100%);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: "Rajdhani", system-ui, sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  code, pre, .font-mono {
+    font-family: "Share Tech Mono", "Courier New", monospace;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  [type="button"]:not(:disabled),
+  [type="submit"]:not(:disabled),
+  a[href] {
+    @apply cursor-pointer;
+  }
+
+  ::-webkit-scrollbar { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-track { background: oklch(0.08 0.01 240); }
+  ::-webkit-scrollbar-thumb { background: oklch(0.72 0.28 195 / 0.4); border-radius: 2px; }
+  ::-webkit-scrollbar-thumb:hover { background: oklch(0.72 0.28 195 / 0.7); }
+}
+
+/* ── Components ───────────────────────────────────────────────────────────── */
+@layer components {
+  .container {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    max-width: 1200px;
+  }
+  @media (min-width: 640px) {
+    .container { padding-left: 1.5rem; padding-right: 1.5rem; }
+  }
+  @media (min-width: 1024px) {
+    .container { padding-left: 2rem; padding-right: 2rem; }
+  }
+
+  .flex { min-height: 0; min-width: 0; }
+
+  /* ── Game Panel ─────────────────────────────────────────────────────────── */
+  .game-panel {
+    background: oklch(0.09 0.015 240);
+    border: 1px solid oklch(0.22 0.05 195);
+    position: relative;
+    overflow: hidden;
+  }
+  .game-panel::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, oklch(0.72 0.28 195), transparent);
+  }
+
+  /* ── Neon Glow ──────────────────────────────────────────────────────────── */
+  .neon-cyan {
+    color: oklch(0.72 0.28 195);
+    text-shadow: 0 0 7px oklch(0.72 0.28 195), 0 0 21px oklch(0.72 0.28 195 / 0.5);
+  }
+  .neon-magenta {
+    color: oklch(0.65 0.30 320);
+    text-shadow: 0 0 7px oklch(0.65 0.30 320), 0 0 21px oklch(0.65 0.30 320 / 0.5);
+  }
+  .neon-red {
+    color: oklch(0.60 0.28 25);
+    text-shadow: 0 0 7px oklch(0.60 0.28 25), 0 0 21px oklch(0.60 0.28 25 / 0.5);
+  }
+  .neon-border-cyan {
+    border-color: oklch(0.72 0.28 195);
+    box-shadow: 0 0 5px oklch(0.72 0.28 195 / 0.4), inset 0 0 5px oklch(0.72 0.28 195 / 0.1);
+  }
+  .neon-border-magenta {
+    border-color: oklch(0.65 0.30 320);
+    box-shadow: 0 0 5px oklch(0.65 0.30 320 / 0.4), inset 0 0 5px oklch(0.65 0.30 320 / 0.1);
+  }
+
+  /* ── Chromatic Aberration ───────────────────────────────────────────────── */
+  .chroma { position: relative; display: inline-block; }
+  .chroma::before {
+    content: attr(data-text);
+    position: absolute; left: -2px; top: 0;
+    color: oklch(0.72 0.28 195); opacity: 0.6;
+    clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+    pointer-events: none;
+  }
+  .chroma::after {
+    content: attr(data-text);
+    position: absolute; left: 2px; top: 0;
+    color: oklch(0.65 0.30 320); opacity: 0.6;
+    clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
+    pointer-events: none;
+  }
+
+  /* ── Error Code ─────────────────────────────────────────────────────────── */
+  .error-code {
+    font-family: "Share Tech Mono", monospace;
+    font-size: 0.65rem;
+    color: oklch(0.50 0.02 240);
+    letter-spacing: 0.1em;
+  }
+
+  /* ── Tier Badges ────────────────────────────────────────────────────────── */
+  .tier-bronze { color: oklch(0.65 0.15 55); }
+  .tier-silver { color: oklch(0.75 0.05 240); }
+  .tier-gold { color: oklch(0.80 0.20 80); }
+  .tier-platinum { color: oklch(0.85 0.10 195); }
+  .tier-diamond { color: oklch(0.75 0.25 230); }
+  .tier-apex { color: oklch(0.65 0.30 320); text-shadow: 0 0 10px oklch(0.65 0.30 320 / 0.5); }
+
+  /* ── Zone Buttons ───────────────────────────────────────────────────────── */
+  .zone-btn {
+    position: relative;
+    border: 2px solid oklch(0.20 0.03 240);
+    background: oklch(0.11 0.015 240);
+    transition: all 0.15s;
+    cursor: pointer;
+    font-family: "Share Tech Mono", monospace;
+  }
+  .zone-btn:hover {
+    border-color: oklch(0.72 0.28 195);
+    background: oklch(0.72 0.28 195 / 0.1);
+    box-shadow: 0 0 12px oklch(0.72 0.28 195 / 0.3);
+  }
+  .zone-btn.selected {
+    border-color: oklch(0.65 0.30 320);
+    background: oklch(0.65 0.30 320 / 0.15);
+    box-shadow: 0 0 16px oklch(0.65 0.30 320 / 0.4);
+  }
+
+  /* ── Game page layout ────────────────────────────────────────────────────── */
+  .game-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  .game-page__header {
+    display: grid;
+    grid-template-columns: minmax(220px, 280px) auto minmax(220px, 280px);
+    gap: 1rem;
+    padding: 1rem 1.2rem;
+    background: rgba(255,255,255,0.05);
+    border-bottom: 1px solid oklch(0.18 0.03 240);
+    backdrop-filter: blur(14px);
+  }
+  .game-panel {
+    padding: 1rem;
+    border: 1px solid oklch(0.20 0.03 240);
+    border-radius: 1rem;
+    background: oklch(0.08 0.014 240 / 0.95);
+    display: grid;
+    gap: 0.75rem;
+  }
+  .game-panel--compact {
+    align-items: center;
+    grid-template-columns: auto 1fr;
+  }
+  .game-panel--alt {
+    background: oklch(0.10 0.015 240 / 0.96);
+  }
+  .game-panel__meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  .game-panel__meta--right {
+    align-items: flex-end;
+  }
+  .avatar-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .avatar-chip__icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    border: 2px solid rgba(255,255,255,0.18);
+    box-shadow: 0 0 18px rgba(255,255,255,0.06);
+    display: grid;
+    place-items: center;
+    color: #fff;
+    font-weight: 800;
+    font-family: "Rajdhani", sans-serif;
+  }
+  .avatar-chip__label {
+    font-family: "Rajdhani", sans-serif;
+    color: oklch(0.93 0.01 240);
+    font-size: 0.85rem;
+    letter-spacing: 0.06em;
+  }
+  .heart-row {
+    display: flex;
+    gap: 0.35rem;
+  }
+  .heart-icon {
+    width: 22px;
+    height: 22px;
+  }
+  .status-tag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    padding: 0.2rem 0.65rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    font-family: "Share Tech Mono", monospace;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .status-tag--player {
+    color: #3ee38b;
+  }
+  .status-tag--opponent {
+    color: #ff6b6b;
+  }
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.82rem 1.15rem;
+    border-radius: 1rem;
+    border: 1px solid oklch(0.22 0.05 195 / 0.4);
+    background: oklch(0.09 0.014 240 / 0.95);
+    color: oklch(0.93 0.01 240);
+    font-family: "Share Tech Mono", monospace;
+    font-size: 0.77rem;
+    letter-spacing: 0.12em;
+  }
+  .status-subtitle {
+    margin-top: 0.45rem;
+    color: oklch(0.58 0.02 240);
+    font-size: 0.78rem;
+    font-family: "Share Tech Mono", monospace;
+  }
+  .game-canvas-container {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+  }
+  .canvas-wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+  .game-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+    touch-action: none;
+    user-select: none;
+    cursor: crosshair;
+    background: transparent;
+  }
+  .impact-overlay {
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    background: radial-gradient(circle at center, rgba(255,80,80,0.2), transparent 55%);
+    transition: opacity 0.18s ease-out;
+    mix-blend-mode: screen;
+  }
+  .impact-overlay--active {
+    opacity: 1;
+  }
+  .match-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    background: rgba(10,10,10,0.80);
+    z-index: 5;
+    padding: 2rem;
+  }
+  .match-overlay__banner {
+    font-family: "Rajdhani", sans-serif;
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    font-weight: 900;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    text-align: center;
+  }
+  .match-overlay__banner--win {
+    color: #6ef2a9;
+    text-shadow: 0 0 40px rgba(110,242,169,0.35);
+  }
+  .match-overlay__banner--lose {
+    color: #ff7a7a;
+    text-shadow: 0 0 40px rgba(255,122,122,0.35);
+  }
+  .match-overlay__subtext {
+    color: oklch(0.72 0.06 240);
+    font-family: "Share Tech Mono", monospace;
+    font-size: 0.95rem;
+    letter-spacing: 0.14em;
+  }
+  .match-overlay__actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .btn {
+    border: 1px solid transparent;
+    border-radius: 999px;
+    padding: 0.95rem 1.85rem;
+    font-family: "Rajdhani", sans-serif;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    transition: transform 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+  }
+  .btn:hover {
+    transform: translateY(-1px);
+  }
+  .btn--primary {
+    background: #ff4d4d;
+    color: #fff;
+    box-shadow: 0 0 20px rgba(255, 77, 77, 0.22);
+  }
+  .btn--secondary {
+    background: rgba(255,255,255,0.04);
+    color: oklch(0.93 0.01 240);
+    border-color: rgba(255,255,255,0.12);
+  }
+  .game-warning-banner {
+    position: absolute;
+    left: 50%;
+    bottom: 1.25rem;
+    transform: translateX(-50%);
+    padding: 0.85rem 1.4rem;
+    border-radius: 999px;
+    background: rgba(231, 76, 60, 0.92);
+    color: #fff;
+    font-family: "Share Tech Mono", monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    z-index: 10;
+  }
+}
+
+/* ── Animations ───────────────────────────────────────────────────────────── */
+@keyframes glitch-text {
+  0%, 90%, 100% { transform: translate(0); opacity: 1; }
+  92% { transform: translate(-3px, 0); opacity: 0.8; color: oklch(0.72 0.28 195); }
+  94% { transform: translate(3px, 0); opacity: 0.8; color: oklch(0.65 0.30 320); }
+  96% { transform: translate(0); opacity: 1; }
+}
+.glitch-text { animation: glitch-text 4s infinite; }
+
+@keyframes pulse-neon {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+.pulse-neon { animation: pulse-neon 2s ease-in-out infinite; }
+
+@keyframes scan-line {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+.scan-line {
+  position: fixed; top: 0; left: 0;
+  width: 100%; height: 2px;
+  background: linear-gradient(90deg, transparent, oklch(0.72 0.28 195 / 0.3), transparent);
+  animation: scan-line 8s linear infinite;
+  pointer-events: none; z-index: 9997;
+}
+
+@keyframes hit-flash {
+  0% { opacity: 0; }
+  10% { opacity: 0.75; }
+  40% { opacity: 0.4; }
+  100% { opacity: 0; }
+}
+.hit-flash {
+  position: fixed; inset: 0;
+  background: radial-gradient(ellipse at center, oklch(0.55 0.28 25 / 0.85), oklch(0.60 0.22 50 / 0.4));
+  pointer-events: none; z-index: 9990;
+  animation: hit-flash 0.6s ease-out forwards;
+}
+
+@keyframes energy-burst {
+  0% { transform: scale(0); opacity: 1; }
+  50% { transform: scale(2.5); opacity: 0.8; }
+  100% { transform: scale(4); opacity: 0; }
+}
+.energy-burst {
+  position: absolute;
+  width: 60px; height: 60px;
+  border-radius: 50%;
+  background: radial-gradient(circle, oklch(0.90 0.28 25), oklch(0.60 0.28 25 / 0.3));
+  animation: energy-burst 0.5s ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes shatter {
+  0% { transform: scale(1) rotate(0deg); opacity: 1; filter: none; }
+  20% { transform: scale(1.1) rotate(2deg); filter: hue-rotate(90deg) brightness(2); }
+  50% { transform: scale(1.05) rotate(-3deg) skewX(5deg); opacity: 0.5; filter: hue-rotate(180deg); }
+  80% { transform: scale(0.8) rotate(-5deg) skewX(-5deg); opacity: 0.2; }
+  100% { transform: scale(0) rotate(10deg); opacity: 0; }
+}
+.shatter { animation: shatter 0.8s ease-in forwards; }
+
+@keyframes winner-glow {
+  0%, 100% {
+    text-shadow: 0 0 20px oklch(0.72 0.28 195), 0 0 60px oklch(0.72 0.28 195 / 0.5), 0 0 100px oklch(0.72 0.28 195 / 0.3);
+  }
+  50% {
+    text-shadow: 0 0 40px oklch(0.65 0.30 320), 0 0 80px oklch(0.65 0.30 320 / 0.5), 0 0 120px oklch(0.65 0.30 320 / 0.3);
+  }
+}
+.winner-glow { animation: winner-glow 1.5s ease-in-out infinite; }
+
+@keyframes reward-pop {
+  0% { transform: scale(0) rotate(-10deg); opacity: 0; }
+  60% { transform: scale(1.1) rotate(2deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+.reward-pop { animation: reward-pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+
+@keyframes recoil {
+  0% { transform: translateX(0) rotate(0deg); }
+  20% { transform: translateX(-8px) rotate(-3deg); }
+  40% { transform: translateX(4px) rotate(1deg); }
+  100% { transform: translateX(0) rotate(0deg); }
+}
+.recoil { animation: recoil 0.3s ease-out forwards; }
+
+@keyframes countdown-pulse {
+  0% { transform: scale(1.5); opacity: 0; }
+  20% { opacity: 1; }
+  80% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(0.8); opacity: 0; }
+}
+.countdown-number { animation: countdown-pulse 0.9s ease-out forwards; }
+
+@keyframes float-up {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(-60px); opacity: 0; }
+}
+.float-up { animation: float-up 1s ease-out forwards; }
+
+@keyframes slide-in-right {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+.slide-in-right { animation: slide-in-right 0.3s ease-out forwards; }
+
+@keyframes fade-in-up {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+.fade-in-up { animation: fade-in-up 0.4s ease-out forwards; }
+
+@keyframes border-glow-pulse {
+  0%, 100% { box-shadow: 0 0 5px oklch(0.72 0.28 195 / 0.3); }
+  50% { box-shadow: 0 0 20px oklch(0.72 0.28 195 / 0.7), 0 0 40px oklch(0.72 0.28 195 / 0.3); }
+}
+.border-glow-pulse { animation: border-glow-pulse 2s ease-in-out infinite; }
+
+/* ─── Slow Motion Overlay ─────────────────────────────────────────────────── */
+@keyframes slow-mo-pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 0.3; }
+  100% { opacity: 0.6; }
+}
+.slow-mo-overlay {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    oklch(0.10 0.04 25 / 0.7),
+    oklch(0.08 0.02 240 / 0.5)
+  );
+  z-index: 40;
+  pointer-events: none;
+  animation: slow-mo-pulse 0.8s ease-in-out infinite;
+  border: 2px solid oklch(0.60 0.28 25 / 0.6);
+}
+
+@keyframes spin {
+  from { transform: translate(0, -50%) rotate(0deg); }
+  to { transform: translate(0, -50%) rotate(360deg); }
+}
+@keyframes scaleIn {
+  from { transform: scale(0.5); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
